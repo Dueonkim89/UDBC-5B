@@ -9,7 +9,8 @@ contract StarNotary is ERC721 {
     }
 
 //  Add a name and a symbol for your starNotary tokens
-
+    string public name = "Star Notary Token";
+    string public symbol = "SNT";
 //
 
     mapping(uint256 => Star) public tokenIdToStarInfo;
@@ -24,7 +25,9 @@ contract StarNotary is ERC721 {
     }
 
 // Add a function lookUptokenIdToStarInfo, that looks up the stars using the Token ID, and then returns the name of the star.
-
+    function lookUptokenIdToStarInfo( uint256 _tokenId) public view returns (string) {
+      return tokenIdToStarInfo[_tokenId].name;
+    }
 //
 
     function putStarUpForSale(uint256 _tokenId, uint256 _price) public {
@@ -53,11 +56,22 @@ contract StarNotary is ERC721 {
 
 // Add a function called exchangeStars, so 2 users can exchange their star tokens...
 //Do not worry about the price, just write code to exchange stars between users.
+    function exchangeStars(address user1, uint256 tokenId1, address user2, uint256 tokenId2) public {
+        //require the users actually own the tokens
+        require(ownerOf(tokenId1) == user1 && ownerOf(tokenId2) == user2);
+        //remove tokens, this func comes from ERC721
+        _removeTokenFrom(user1, tokenId1);
+        _removeTokenFrom(user2, tokenId2);
+        //add tokens, this func comes from ERC721
+        _addTokenTo(user1, tokenId2);
+        _addTokenTo(user2, tokenId1);
+    }
 
-//
 
 // Write a function to Transfer a Star. The function should transfer a star from the address of the caller.
 // The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.
-//
+    function transferStar(address caller, uint256 _tokenId) public {
+
+    }
 
 }
