@@ -9,7 +9,8 @@ contract StarNotary is ERC721 {
     }
 
 //  Add a name and a symbol for your starNotary tokens
-
+    string public name = "Star Notary Token";
+    string public symbol = "SNT";
 //
 
     mapping(uint256 => Star) public tokenIdToStarInfo;
@@ -24,7 +25,9 @@ contract StarNotary is ERC721 {
     }
 
 // Add a function lookUptokenIdToStarInfo, that looks up the stars using the Token ID, and then returns the name of the star.
-
+    function lookUptokenIdToStarInfo( uint256 _tokenId) public view returns (string) {
+      return tokenIdToStarInfo[_tokenId].name;
+    }
 //
 
     function putStarUpForSale(uint256 _tokenId, uint256 _price) public {
