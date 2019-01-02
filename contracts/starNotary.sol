@@ -32,7 +32,6 @@ contract StarNotary is ERC721 {
 
     function putStarUpForSale(uint256 _tokenId, uint256 _price) public {
         require(ownerOf(_tokenId) == msg.sender);
-
         starsForSale[_tokenId] = _price;
     }
 
@@ -57,21 +56,29 @@ contract StarNotary is ERC721 {
 // Add a function called exchangeStars, so 2 users can exchange their star tokens...
 //Do not worry about the price, just write code to exchange stars between users.
     function exchangeStars(address user1, uint256 tokenId1, address user2, uint256 tokenId2) public {
-        //require the users actually own the tokens
-        require(ownerOf(tokenId1) == user1 && ownerOf(tokenId2) == user2);
-        //remove tokens, this func comes from ERC721
+        //require the users actually own the tokens or are approved to handle tokens
+        require(ERC721._isApprovedOrOwner(user1, tokenId1) && ERC721._isApprovedOrOwner(user2, tokenId2));
+        //clearApproval
+        ERC721._clearApproval(user1, tokenId1);
+        ERC721._clearApproval(user2, tokenId2);
+        //remove tokens
         _removeTokenFrom(user1, tokenId1);
         _removeTokenFrom(user2, tokenId2);
-        //add tokens, this func comes from ERC721
+        //add tokens
         _addTokenTo(user1, tokenId2);
         _addTokenTo(user2, tokenId1);
+        //emit transfer event
+        emit Transfer(user1, user2, tokenId1);
+        emit Transfer(user2, user1, tokenId2);
     }
 
 
 // Write a function to Transfer a Star. The function should transfer a star from the address of the caller.
 // The function should accept 2 arguments, the address to transfer the star to, and the token ID of the star.
-    function transferStar(address caller, uint256 _tokenId) public {
-
+    function transferStar(address recipient, uint256 _tokenId) public {
+      //require the caller owns the star
+      require(ownerOf(_tokenId) == msg.sender);
+      //
     }
 
 }
