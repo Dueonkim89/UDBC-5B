@@ -21,7 +21,7 @@ contract('StarNotary', (accs) => {
     it('lets user1 put up their star for sale', async() => {
       let user1 = accs[1];
       let starId = 2;
-      let starPrice = web3.utils.toWei('.01', "ether");
+      let starPrice = web3.toWei('.01', "ether");
       //no need to use .call since these are all txs
       await instance.createStar('awesome star', starId, {from: user1});
       await instance.putStarUpForSale(starId, starPrice, {from: user1});
@@ -33,7 +33,7 @@ contract('StarNotary', (accs) => {
       let user1 = accs[1];
       let user2 = accs[2];
       let starId = 3;
-      let starPrice = web3.utils.toWei('.01', "ether");
+      let starPrice = web3.toWei('.01', "ether");
       await instance.createStar('awesome star', starId, {from: user1});
       await instance.putStarUpForSale(starId, starPrice, {from: user1});
       let balanceOfUser1BeforeTransaction = await web3.eth.getBalance(user1);
@@ -49,7 +49,7 @@ contract('StarNotary', (accs) => {
       let user1 = accs[1];
       let user2 = accs[2];
       let starId = 4;
-      let starPrice = web3.utils.toWei('.01', "ether");
+      let starPrice = web3.toWei('.01', "ether");
       await instance.createStar('awesome star', starId, {from: user1})
       await instance.putStarUpForSale(starId, starPrice, {from: user1})
       let balanceOfUser1BeforeTransaction = web3.eth.getBalance(user2)
@@ -61,7 +61,7 @@ contract('StarNotary', (accs) => {
       let user1 = accs[1];
       let user2 = accs[2];
       let starId = 5;
-      let starPrice = web3.utils.toWei('.01', "ether");
+      let starPrice = web3.toWei('.01', "ether");
       await instance.createStar('awesome star', starId, {from: user1});
       await instance.putStarUpForSale(starId, starPrice, {from: user1});
       const balanceOfUser2BeforeTransaction = await web3.eth.getBalance(user2);

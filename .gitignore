@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# menonmic phrase
+menonmic.js
+
 # testing
 /coverage
 
