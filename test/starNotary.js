@@ -112,11 +112,26 @@ contract('StarNotary', (accs) => {
         await instance.exchangeStars(user1, firstStarID, user2, secondStarID, {from: user1, gasPrice:0});
         assert.equal(await instance.ownerOf.call(secondStarID), user1);
         assert.equal(await instance.ownerOf.call(firstStarID), user2);
-  		});    
+  		});
   	});
 
+    // 3) Stars Tokens can be transferred from one address to another.
+    describe('star tokens can be transferred from one address to another', async () => {
+      let user1 = accs[1];
+      let user2 = accs[2];
+      let starID = 1;
 
-  // 3) Stars Tokens can be transferred from one address to another.
+      beforeEach(async function () {
+        //create the star from user1
+        await instance.createStar('Cool Star', starID, {from: user1});
+      });
 
+      //test to see if star token was transferred.
+  		it('check if star token was transferred', async () => {
+        //transfer the token to user2
+        await instance.transferStar(user2, starID, {from: user1, gasPrice:0});
+        assert.equal(await instance.ownerOf.call(starID), user2);
+      });
+  	});
 
 })
