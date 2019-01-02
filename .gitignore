@@ -3,8 +3,9 @@
 # dependencies
 /node_modules
 
-# menonmic phrase
+# menonmic phrase & infura node
 menonmic.js
+infuraNode.js
 
 # testing
 /coverage
