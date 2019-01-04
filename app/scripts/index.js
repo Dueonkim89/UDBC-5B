@@ -14,15 +14,15 @@ const StarNotary = contract(StarNotaryArtifact)
 // The following code is simple to show off interacting with your contracts.
 // As your needs grow you will likely need to change its form and structure.
 // For application bootstrapping, check out window.addEventListener below.
-let accounts
-let account
+let accounts;
+let account;
+let instance;
 
 const createStar = async () => {
-  const instance = await StarNotary.deployed();
   const name = document.getElementById("starName").value;
   const id = document.getElementById("starId").value;
   await instance.createStar(name, id, {from: account});
-  App.setStatus("New Star Owner is " + account + ".");
+  App.setStatus("New Star Owner is " + account + ".", 'status');
 }
 
 // Add a function lookUp to Lookup a star by ID using tokenIdToStarInfo()
@@ -37,31 +37,42 @@ const App = {
     StarNotary.setProvider(web3.currentProvider)
 
     // Get the initial account balance so it can be displayed.
-    web3.eth.getAccounts(function (err, accs) {
+    web3.eth.getAccounts(async function (err, accs) {
       if (err != null) {
-        alert('There was an error fetching your accounts.')
-        return
+        alert('There was an error fetching your accounts.');
+        return;
       }
 
       if (accs.length === 0) {
-        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.")
-        return
+        alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+        return;
       }
 
       accounts = accs
       account = accounts[0]
+      instance = await StarNotary.deployed();
 
     })
   },
 
-  setStatus: function (message) {
-    const status = document.getElementById('status')
+  setStatus: function (message, element) {
+    const status = document.getElementById(element)
     status.innerHTML = message
   },
 
   createStar: function () {
     createStar();
   },
+
+  lookUpStar: async function () {
+    const tokenId = document.getElementById("tokenId").value;
+    const starName = await instance.lookUptokenIdToStarInfo(tokenId, {from: account});
+    if (!starName) {
+      App.setStatus("This star doesn't exist yet, Go claim it!", 'lookUpStatus');
+    } else {
+      App.setStatus("Star name for this id is: " + starName, 'lookUpStatus');
+    }
+  }
 
 }
 
