@@ -9,7 +9,7 @@ import { default as contract } from 'truffle-contract'
 import StarNotaryArtifact from '../../build/contracts/StarNotary.json'
 
 // StarNotary is our usable abstraction, which we'll use through the code below.
-const StarNotary = contract(StarNotaryArtifact)
+const StarNotary = contract(StarNotaryArtifact);
 
 // The following code is simple to show off interacting with your contracts.
 // As your needs grow you will likely need to change its form and structure.
@@ -17,17 +17,6 @@ const StarNotary = contract(StarNotaryArtifact)
 let accounts;
 let account;
 let instance;
-
-const createStar = async () => {
-  const name = document.getElementById("starName").value;
-  const id = document.getElementById("starId").value;
-  await instance.createStar(name, id, {from: account});
-  App.setStatus("New Star Owner is " + account + ".", 'status');
-}
-
-// Add a function lookUp to Lookup a star by ID using tokenIdToStarInfo()
-
-//
 
 const App = {
   start: function () {
@@ -60,10 +49,13 @@ const App = {
     status.innerHTML = message
   },
 
-  createStar: function () {
-    createStar();
+  createStar: async function () {
+    const name = document.getElementById("starName").value;
+    const id = document.getElementById("starId").value;
+    await instance.createStar(name, id, {from: account});
+    App.setStatus("New Star Owner is " + account + ".", 'status');
   },
-
+  // Add a function lookUp to Lookup a star by ID using tokenIdToStarInfo()
   lookUpStar: async function () {
     const tokenId = document.getElementById("tokenId").value;
     const starName = await instance.lookUptokenIdToStarInfo(tokenId, {from: account});
@@ -72,6 +64,10 @@ const App = {
     } else {
       App.setStatus("Star name for this id is: " + starName, 'lookUpStatus');
     }
+  },
+  // transfer star using transferStar method on our smart contract
+  transferStar: async function () {
+
   }
 
 }
