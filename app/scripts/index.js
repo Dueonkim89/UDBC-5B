@@ -50,24 +50,37 @@ const App = {
   },
 
   createStar: async function () {
+    App.setStatus("", 'status');
     const name = document.getElementById("starName").value;
     const id = document.getElementById("starId").value;
+    if (!name || !id) {
+      App.setStatus("Please enter a name and id for your star!", 'status');
+      return;
+    }
     await instance.createStar(name, id, {from: account});
     App.setStatus("New Star Owner is " + account + ".", 'status');
   },
   // Add a function lookUp to Lookup a star by ID using tokenIdToStarInfo()
   lookUpStar: async function () {
+    App.setStatus("", 'nameOfStar');
+    App.setStatus("",  'starOwner');
     const tokenId = document.getElementById("tokenId").value;
     const starName = await instance.lookUptokenIdToStarInfo(tokenId, {from: account});
-    if (!starName) {
-      App.setStatus("This star doesn't exist yet, Go claim it!", 'lookUpStatus');
+    const starOwner = await instance.ownerOf(tokenId, {from: account});
+    if (starOwner === '0x') {
+      App.setStatus("This star doesn't exist yet, Go claim it!", 'nameOfStar');
     } else {
-      App.setStatus("Star name for this id is: " + starName, 'lookUpStatus');
+      App.setStatus("Star name is: " + starName, 'nameOfStar');
+      App.setStatus("Star owner is: " + starOwner, 'starOwner');
     }
   },
   // transfer star using transferStar method on our smart contract
   transferStar: async function () {
-
+    const transferId = document.getElementById("transferId").value;
+    const to = document.getElementById("to").value;
+    const transfer = await instance.transferStar(to, transferId, {from: account});
+    App.setStatus("Star was sent to " + to + '. Please wait for miners to confirm the transaction.','sendStatus');
+    console.log(transfer);
   }
 
 }
