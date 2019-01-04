@@ -21,16 +21,17 @@
   <br>
     <h1>Look up a star by id</h1>
     <br><label for="tokenId">Star ID:</label><input type="text" id="tokenId"></input>
-    <span id="lookUpStatus"></span>
+    <span id="nameOfStar"></span>
+    <span id="starOwner"></span>
     <br><br><button id="lookUpStar" onclick="App.lookUpStar()">Look Up Star</button>
     <br><br>
   <br>
   <br>
-    <h1>Transfer token between users</h1>
-    <br><label for="from">Sender:</label><input type="text" id="from"></input>
+    <h1>Transfer star between users</h1>
+    <br><label for="from">Star ID:</label><input type="text" id="transferId"></input>
     <br><label for="to">Recipient:</label><input type="text" id="to"></input>
     <span id="sendStatus"></span>
-    <br><br><button id="transferToken" onclick="App.createStar()">Transfer Token</button>
+    <br><br><button id="transferToken" onclick="App.transferStar()">Transfer Token</button>
     <br><br>
   <br>
 
