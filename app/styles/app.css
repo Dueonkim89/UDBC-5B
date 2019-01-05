@@ -51,6 +51,11 @@ h3 {
   color: #666;
 }
 
-#starOwner {
+#starOwner, #nameOfStar, #status, #sendStatus {
   display: block;
+}
+
+.missing {
+  font-weight: bold;
+  color: red;
 }
